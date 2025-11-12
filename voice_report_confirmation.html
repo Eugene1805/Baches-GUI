@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Revisar Reporte de Bache</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&amp;family=Roboto&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#1E88E5",
+            "action": "#FF6D00",
+            "text-main": "#212121",
+            "background-secondary": "#F5F5F5",
+          },
+          fontFamily: {
+            "display": ["Poppins", "sans-serif"],
+            "body": ["Roboto", "sans-serif"],
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-primary font-body">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-primary group/design-root overflow-x-hidden text-text-main">
+<div class="flex items-center bg-primary p-4 pb-2 justify-between">
+<div class="text-white flex size-12 shrink-0 items-center">
+<span class="material-symbols-outlined text-3xl">arrow_back</span>
+</div>
+<h1 class="text-white text-3xl font-bold font-display leading-tight tracking-[-0.015em] flex-1 text-center">Revise su Reporte</h1>
+<div class="size-12"></div>
+</div>
+<div class="flex-grow bg-background-secondary rounded-t-3xl pt-8 px-4">
+<p class="text-text-main text-base leading-normal pb-3">Por favor, revise el texto transcrito de su reporte de voz.</p>
+<div class="bg-white rounded-lg shadow-md p-4 mb-8">
+<p class="text-text-main text-base leading-normal">
+          El bache está en la esquina de la Calle Principal y la 2ª Avenida, justo en frente de la panadería. Mide como un pie de ancho y es bastante profundo, casi pierdo mi llanta en él.
+        </p>
+</div>
+<div class="flex flex-col gap-4">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-action text-white text-lg font-medium font-display leading-normal tracking-[0.015em] w-full shadow-lg">
+<span class="material-symbols-outlined mr-2">check_circle</span>
+<span class="truncate">Confirmar</span>
+</button>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-white text-primary text-lg font-medium font-display leading-normal tracking-[0.015em] w-full border-2 border-primary">
+<span class="material-symbols-outlined mr-2">edit</span>
+<span class="truncate">Editar Texto</span>
+</button>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-transparent text-text-main/80 text-lg font-medium font-display leading-normal tracking-[0.015em] w-full">
+<span class="material-symbols-outlined mr-2">mic</span>
+<span class="truncate">Volver a grabar</span>
+</button>
+</div>
+</div>
+</div>
+
+</body></html>

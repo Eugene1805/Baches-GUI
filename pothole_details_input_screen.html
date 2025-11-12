@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Detalles del Bache</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&amp;family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#FF6D00", // Signal Orange
+            "urban-blue": "#1E88E5",
+            "dark-gray": "#212121",
+            "light-gray": "#F5F5F5",
+            "background-light": "#FFFFFF",
+            "background-dark": "#121212", // A darker background for dark mode
+          },
+          fontFamily: {
+            display: ["Poppins", "sans-serif"],
+            body: ["Roboto", "sans-serif"],
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem", // 12px
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    h1, h2, h3, h4, h5, h6, .font-display {
+      font-family: 'Poppins', sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-dark-gray dark:text-light-gray">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="flex items-center bg-urban-blue p-4 pb-3">
+<button class="text-white">
+<span class="material-symbols-outlined text-3xl">arrow_back</span>
+</button>
+<h1 class="text-white text-[28px] font-bold leading-tight flex-1 text-center font-display">Detalles del Bache</h1>
+<div class="w-8"></div>
+</div>
+<div class="w-full bg-light-gray dark:bg-dark-gray/30 p-2 text-center">
+<p class="text-dark-gray dark:text-light-gray text-sm font-body">Paso 2 de 3</p>
+</div>
+<div class="px-4 py-5">
+<p class="text-dark-gray dark:text-light-gray text-base font-normal leading-normal pb-6 pt-1 font-body">Ayúdenos a entender el problema. Proporcione algunos detalles a continuación.</p>
+<h2 class="text-dark-gray dark:text-light-gray text-xl font-bold leading-tight tracking-[-0.015em] pb-3 font-display">Tamaño del Bache</h2>
+<div class="flex space-x-4">
+<label class="flex flex-col items-center cursor-pointer flex-1 p-4 rounded-lg border-2 border-transparent has-[:checked]:border-primary bg-light-gray dark:bg-dark-gray/50 has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
+<div class="w-8 h-8 rounded-full bg-dark-gray/20 dark:bg-light-gray/20 mb-2"></div>
+<span class="text-dark-gray dark:text-light-gray font-body">Pequeño</span>
+<input class="sr-only" name="pothole-size" type="radio" value="Pequeño"/>
+</label>
+<label class="flex flex-col items-center cursor-pointer flex-1 p-4 rounded-lg border-2 border-transparent has-[:checked]:border-primary bg-light-gray dark:bg-dark-gray/50 has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
+<div class="w-12 h-12 rounded-full bg-dark-gray/20 dark:bg-light-gray/20 mb-2"></div>
+<span class="text-dark-gray dark:text-light-gray font-body">Mediano</span>
+<input checked="" class="sr-only" name="pothole-size" type="radio" value="Mediano"/>
+</label>
+<label class="flex flex-col items-center cursor-pointer flex-1 p-4 rounded-lg border-2 border-transparent has-[:checked]:border-primary bg-light-gray dark:bg-dark-gray/50 has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
+<div class="w-16 h-16 rounded-full bg-dark-gray/20 dark:bg-light-gray/20 mb-2"></div>
+<span class="text-dark-gray dark:text-light-gray font-body">Grande</span>
+<input class="sr-only" name="pothole-size" type="radio" value="Grande"/>
+</label>
+</div>
+<h2 class="text-dark-gray dark:text-light-gray text-xl font-bold leading-tight tracking-[-0.015em] pt-8 pb-3 font-display">Descripción</h2>
+<div class="relative">
+<textarea class="w-full p-4 rounded-lg bg-light-gray dark:bg-dark-gray/50 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-urban-blue focus:border-urban-blue font-body text-base" placeholder="Describa el bache, ej. profundo, ancho, cerca del bordillo" rows="4"></textarea>
+<p class="absolute bottom-2 right-3 text-xs text-dark-gray/60 dark:text-light-gray/60 font-body">0/200</p>
+</div>
+<h2 class="text-dark-gray dark:text-light-gray text-xl font-bold leading-tight tracking-[-0.015em] pt-8 pb-3 font-display">Foto</h2>
+<button class="w-full flex items-center justify-center p-6 rounded-lg bg-light-gray dark:bg-dark-gray/50 border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-urban-blue hover:bg-urban-blue/10 dark:hover:bg-urban-blue/20 transition-colors">
+<span class="material-symbols-outlined text-4xl text-dark-gray/80 dark:text-light-gray/80 mr-2">add_a_photo</span>
+<span class="text-dark-gray dark:text-light-gray font-medium font-body text-lg">Añadir Foto</span>
+</button>
+</div>
+<div class="mt-auto px-4 py-6 bg-background-light dark:bg-background-dark sticky bottom-0 border-t border-gray-200 dark:border-gray-700">
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="w-full sm:flex-1 py-3 px-6 rounded-lg bg-primary text-white text-lg font-medium font-display shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+          Enviar Reporte
+        </button>
+<button class="w-full sm:flex-1 py-3 px-6 rounded-lg border-2 border-urban-blue text-urban-blue bg-white dark:bg-transparent dark:text-urban-blue dark:border-urban-blue hover:bg-urban-blue/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-urban-blue">
+          Cancelar
+        </button>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patrulla de Bache – Prototipo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Public+Sans:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6D00',
+                        secondary: '#1E88E5',
+                        'urban-blue': '#1E88E5',
+                        action: '#FF6D00',
+                        'signal-orange': '#FF5722',
+                        'success-green': '#43A047',
+                        success: '#43A047',
+                        'background-light': '#FFFFFF',
+                        'background-secondary': '#F5F5F5',
+                        'background-dark': '#121212',
+                        'card-background': '#F5F5F5',
+                        'card-light': '#FFFFFF',
+                        'card-dark': '#424242',
+                        'text-main': '#212121',
+                        'text-on-primary': '#FFFFFF',
+                    },
+                    fontFamily: {
+                        display: ['Poppins', 'Public Sans', 'sans-serif'],
+                        body: ['Roboto', 'sans-serif'],
+                        poppins: ['Poppins', 'sans-serif'],
+                        roboto: ['Roboto', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        DEFAULT: '0.75rem',
+                        lg: '1rem',
+                        xl: '1.5rem',
+                        full: '9999px',
+                    },
+                    fontSize: {
+                        heading: '28px',
+                        button: '18px',
+                        'button-text': '18px',
+                        'body-text': '16px',
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { min-height: max(884px, 100dvh); }
+        /* Simple screen switcher */
+        .screen { display: none; }
+        .screen.active { display: block; }
+    </style>
+</head>
+<body class="bg-background-light text-text-main">
+    <div id="app" class="min-h-screen">
+
+        <!-- Home Screen -->
+        <div id="home_screen" class="screen active">
+            <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden bg-urban-blue text-white">
+                <div class="flex items-center p-4 pb-2 justify-center">
+                    <h1 class="text-white text-heading font-bold tracking-tight">Patrulla de Bache</h1>
+                </div>
+                <div class="flex flex-col justify-center items-center flex-grow p-6 space-y-6">
+                                <button data-go="voice_report_screen"
+                                    class="flex w-full max-w-sm cursor-pointer items-center justify-center overflow-hidden rounded-lg h-20 px-5 bg-primary text-text-on-primary gap-4 text-button font-medium">
+                        <span class="material-symbols-outlined text-3xl">mic</span>
+                        <span class="truncate">Nuevo Reporte de Voz</span>
+                    </button>
+                    <button data-go="location_input_screen"
+                                    class="flex w-full max-w-sm cursor-pointer items-center justify-center overflow-hidden rounded-lg h-20 px-5 bg-primary text-text-on-primary gap-4 text-button font-medium">
+                        <span class="material-symbols-outlined text-3xl">edit_square</span>
+                        <span class="truncate">Nuevo Reporte Manual</span>
+                    </button>
+                </div>
+                <div class="flex px-4 py-6 justify-center">
+                    <button data-go="my_reports_screen"
+                                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 flex-1 bg-transparent text-white text-base font-medium">
+                        <span class="truncate">Mis Reportes</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Location Input Screen -->
+        <div id="location_input_screen" class="screen">
+            <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden bg-background-light dark:bg-background-dark font-body text-text-main">
+                <div class="flex items-center bg-secondary p-4 pb-3 shadow-md">
+                    <button data-go="home_screen" class="text-white flex size-12 shrink-0 items-center justify-center">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                    <h1 class="text-white text-heading font-bold font-display flex-1 text-center">Reportar un Bache</h1>
+                </div>
+                <div class="p-4 space-y-4 flex-1 flex flex-col">
+                    <p class="text-center font-body text-body text-text-main dark:text-white">Marca la ubicación del bache</p>
+                    <div class="relative flex-grow">
+                        <div class="w-full h-full bg-center bg-no-repeat aspect-video bg-cover rounded-DEFAULT object-cover" data-alt="A map showing streets and a pin in the center" data-location="City Name" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDfJ7Yk-3Hsnw-kYRC9BhJKEGiUFd1Dm7WNrHZsEsKigMho-ahFN0KiR9EU0SG8QuvG16TXEOLBtQHz-TT5-MLAnVUWnyfdzvOy-B9yfxvUNRaAmnQbYSu0Nd49xFs8Lu1OHJIF-quoG523UUCgGeb1V3IJJKrKW1FdmU9npyoFiHAUgw9VThPzLu-naXUzzi3Az1NsztrzE-lgPJDwqDw6UZouv1ROxBW0NtBzUSNv4XSwnxSwzlzkpcUBeTCbwAKpZTJX6nVkvFM");'>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary" style="font-size: 48px;">location_on</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-DEFAULT h-14 px-5 flex-1 bg-white text-secondary gap-2 text-button font-medium font-display border-2 border-secondary">
+                            <span class="material-symbols-outlined">my_location</span>
+                            <span class="truncate">Usar mi ubicación actual</span>
+                        </button>
+                    </div>
+                    <div class="px-0 py-1">
+                        <label class="flex flex-col min-w-40 h-14 w-full">
+                            <div class="flex w-full flex-1 items-stretch rounded-DEFAULT h-full bg-white border border-gray-300">
+                                <div class="text-gray-500 flex items-center justify-center pl-4">
+                                    <span class="material-symbols-outlined">search</span>
+                                </div>
+                                <input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-text-main focus:outline-none focus:ring-0 border-none bg-transparent h-full placeholder:text-gray-500 px-4 text-body font-body" placeholder="Ingresa dirección o arrastra el mapa" value="" />
+                            </div>
+                        </label>
+                    </div>
+                    <div class="flex flex-col bg-white rounded-DEFAULT border border-gray-200 shadow-sm">
+                        <div class="flex items-center gap-4 px-4 py-3 min-h-14 border-b border-gray-200">
+                            <p class="text-text-main text-body font-body flex-1 truncate">2464 Royal Ln. Mesa, Nueva Jersey</p>
+                        </div>
+                        <div class="flex items-center gap-4 px-4 py-3 min-h-14 border-b border-gray-200">
+                            <p class="text-text-main text-body font-body flex-1 truncate">123 Calle Principal, Springfield, Illinois</p>
+                        </div>
+                        <div class="flex items-center gap-4 px-4 py-3 min-h-14">
+                            <p class="text-text-main text-body font-body flex-1 truncate">800 Calle del Mercado, Cualquierpueblo, EE.UU.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 mt-auto">
+                    <button data-go="pothole_details_input_screen"
+                                    class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-DEFAULT h-14 px-5 bg-primary text-white text-button font-medium font-display shadow-lg">
+                        <span class="truncate">Confirmar Ubicación</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Reports Screen -->
+        <div id="my_reports_screen" class="screen">
+            <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden bg-background-light dark:bg-background-dark font-body text-text-main dark:text-white">
+                <header class="bg-urban-blue shadow-md sticky top-0 z-10">
+                    <div class="flex items-center p-4 h-20">
+                        <button data-go="home_screen" class="text-white mr-4">
+                            <span class="material-symbols-outlined text-4xl">arrow_back</span>
+                        </button>
+                        <h1 class="text-white text-2xl font-bold font-display tracking-tight">Mis Reportes</h1>
+                    </div>
+                </header>
+                <main class="flex-1 p-4 pb-24">
+                    <div class="space-y-4">
+                        <div class="flex flex-col bg-card-light dark:bg-card-dark rounded-lg shadow-sm overflow-hidden">
+                            <div class="p-4 flex items-start gap-4">
+                                <span class="material-symbols-outlined text-primary text-4xl mt-1">edit_note</span>
+                                <div class="flex-1">
+                                    <p class="text-base text-text-main dark:text-white font-bold font-display">Borrador</p>
+                                    <p class="text-base text-text-main dark:text-white mt-1">Calle Principal 123, Anytown</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Creado el 26/10/2023</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 dark:bg-gray-700/50 px-4 py-3 flex justify-end">
+                                <button class="flex items-center justify-center rounded-lg h-12 px-6 bg-primary text-white text-lg font-medium font-display leading-normal shadow-md hover:bg-orange-700 transition-colors">
+                                    <span>Editar</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-card-light dark:bg-card-dark rounded-lg shadow-sm">
+                            <div class="p-4 flex items-start gap-4">
+                                <span class="material-symbols-outlined text-green-500 text-4xl mt-1">check_circle</span>
+                                <div class="flex-1">
+                                    <p class="text-base text-text-main dark:text-white font-bold font-display">Enviado</p>
+                                    <p class="text-base text-text-main dark:text-white mt-1">Avenida del Roble 456, Anytown</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Enviado el 12/10/2023</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">ID de Reporte: 12345</p>
+                                </div>
+                                <button data-go="report_detail_screen" class="text-gray-500 dark:text-gray-400 self-center">
+                                    <span class="material-symbols-outlined text-4xl">arrow_forward_ios</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-card-light dark:bg-card-dark rounded-lg shadow-sm">
+                            <div class="p-4 flex items-start gap-4">
+                                <span class="material-symbols-outlined text-green-500 text-4xl mt-1">check_circle</span>
+                                <div class="flex-1">
+                                    <p class="text-base text-text-main dark:text-white font-bold font-display">Enviado</p>
+                                    <p class="text-base text-text-main dark:text-white mt-1">Camino del Pino 789, Sometown</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Enviado el 15/09/2023</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">ID de Reporte: 12301</p>
+                                </div>
+                                <button data-go="report_detail_screen" class="text-gray-500 dark:text-gray-400 self-center">
+                                    <span class="material-symbols-outlined text-4xl">arrow_forward_ios</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <div class="fixed bottom-6 right-6 z-10">
+                    <button data-go="location_input_screen" class="flex size-16 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-primary text-white shadow-lg hover:bg-orange-700 transition-colors">
+                        <span class="material-symbols-outlined text-4xl">add</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pothole Details Input Screen -->
+        <div id="pothole_details_input_screen" class="screen">
+            <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden bg-white dark:bg-background-dark text-text-main dark:text-white font-body">
+                <div class="flex items-center bg-urban-blue p-4 pb-3">
+                    <button data-go="location_input_screen" class="text-white">
+                        <span class="material-symbols-outlined text-3xl">arrow_back</span>
+                    </button>
+                    <h1 class="text-white text-[28px] font-bold leading-tight flex-1 text-center font-display">Detalles del Bache</h1>
+                    <div class="w-8"></div>
+                </div>
+                <div class="w-full bg-light-gray dark:bg-dark-gray/30 p-2 text-center">
+                    <p class="text-dark-gray dark:text-white text-sm font-body">Paso 2 de 3</p>
+                </div>
+                <div class="px-4 py-5">
+                    <p class="text-dark-gray dark:text-white text-base font-normal leading-normal pb-6 pt-1 font-body">Ayúdenos a entender el problema. Proporcione algunos detalles a continuación.</p>
+                    <h2 class="text-dark-gray dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pb-3 font-display">Tamaño del Bache</h2>
+                    <div class="flex space-x-4">
+                        <label class="flex flex-col items-center cursor-pointer flex-1 p-4 rounded-lg border-2 border-transparent has-[:checked]:border-primary bg-light-gray dark:bg-dark-gray/50 has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
+                            <div class="w-8 h-8 rounded-full bg-dark-gray/20 dark:bg-white/20 mb-2"></div>
+                            <span class="text-dark-gray dark:text-white font-body">Pequeño</span>
+                            <input class="sr-only" name="pothole-size" type="radio" value="Pequeño" />
+                        </label>
+                        <label class="flex flex-col items-center cursor-pointer flex-1 p-4 rounded-lg border-2 border-transparent has-[:checked]:border-primary bg-light-gray dark:bg-dark-gray/50 has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
+                            <div class="w-12 h-12 rounded-full bg-dark-gray/20 dark:bg-white/20 mb-2"></div>
+                            <span class="text-dark-gray dark:text-white font-body">Mediano</span>
+                            <input checked class="sr-only" name="pothole-size" type="radio" value="Mediano" />
+                        </label>
+                        <label class="flex flex-col items-center cursor-pointer flex-1 p-4 rounded-lg border-2 border-transparent has-[:checked]:border-primary bg-light-gray dark:bg-dark-gray/50 has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
+                            <div class="w-16 h-16 rounded-full bg-dark-gray/20 dark:bg-white/20 mb-2"></div>
+                            <span class="text-dark-gray dark:text-white font-body">Grande</span>
+                            <input class="sr-only" name="pothole-size" type="radio" value="Grande" />
+                        </label>
+                    </div>
+                    <h2 class="text-dark-gray dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-8 pb-3 font-display">Descripción</h2>
+                    <div class="relative">
+                        <textarea class="w-full p-4 rounded-lg bg-light-gray dark:bg-dark-gray/50 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-urban-blue focus:border-urban-blue font-body text-base" placeholder="Describa el bache, ej. profundo, ancho, cerca del bordillo" rows="4"></textarea>
+                        <p class="absolute bottom-2 right-3 text-xs text-dark-gray/60 dark:text-white/60 font-body">0/200</p>
+                    </div>
+                    <h2 class="text-dark-gray dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pt-8 pb-3 font-display">Foto</h2>
+                    <button data-go="photo_gallery_details" class="w-full flex items-center justify-center p-6 rounded-lg bg-light-gray dark:bg-dark-gray/50 border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-urban-blue hover:bg-urban-blue/10 dark:hover:bg-urban-blue/20 transition-colors">
+                        <span class="material-symbols-outlined text-4xl text-dark-gray/80 dark:text-white/80 mr-2">add_a_photo</span>
+                        <span class="text-dark-gray dark:text-white font-medium font-body text-lg">Añadir Foto</span>
+                    </button>
+                </div>
+                <div class="mt-auto px-4 py-6 bg-white dark:bg-background-dark sticky bottom-0 border-t border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button data-go="review_and_submit_screen" class="w-full sm:flex-1 py-3 px-6 rounded-lg bg-primary text-white text-lg font-medium font-display shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            Enviar Reporte
+                        </button>
+                        <button data-go="home_screen" class="w-full sm:flex-1 py-3 px-6 rounded-lg border-2 border-urban-blue text-urban-blue bg-white dark:bg-transparent dark:text-urban-blue dark:border-urban-blue hover:bg-urban-blue/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-urban-blue">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Confirmation & Editing -->
+        <div id="report_confirmation_and_editing" class="screen">
+            <div class="relative flex h-auto min-h-screen w-full flex-col bg-urban-blue group/design-root overflow-x-hidden font-body">
+                <div class="flex items-center p-4 pb-2 justify-between bg-urban-blue">
+                    <button data-go="home_screen" class="text-white flex size-12 shrink-0 items-center" data-icon="ArrowLeft" data-size="32px" data-weight="regular">
+                        <span class="material-symbols-outlined text-4xl">arrow_back</span>
+                    </button>
+                    <h1 class="text-white text-heading font-display font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Borrador de Reporte</h1>
+                    <div class="w-12"></div>
+                </div>
+                <div class="flex-1 bg-[#F5F5F5] rounded-t-xl mt-4 p-4">
+                    <div class="flex px-4 py-3">
+                        <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl object-cover" data-alt="Un mapa mostrando la ubicación del bache" data-location="Centro de la Ciudad" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB41j1mDZwKAlBhZugH34YMBK79vGHIFaY7cE6TRV9vmJcwkvR7KVz2qRPq3fD4ZB8BphxrXWBJqQzVZXVZCaAI7gIeg9prGOsGE7AV-GW_iLR0bqucJ1GzdRqp5vBF-N3s2iEdjvYUfKMZ1X5STcfPcUBwxREXY3sgyZsSrU_vgqPb5lFtkGs9nNQZSJ44lsZZ8GxmvuDDISNEiDWXl6qF-UX4_67ToINhljbxHY1sU1WeKtTUvV-5JnjuF3_VXgTZ4TZK3zrMifY");'></div>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 mx-4 my-3">
+                        <p class="text-[#212121] text-body-text font-normal leading-normal">Hay un bache grande en la carretera principal cerca de la entrada del parque. Mide aproximadamente 60 centímetros de ancho y está causando problemas a los ciclistas.</p>
+                    </div>
+                    <div class="flex justify-stretch">
+                        <div class="flex flex-1 gap-4 flex-wrap px-4 py-3 justify-between">
+                            <button data-go="photo_gallery_draft" class="flex-1 flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-16 px-5 bg-white border border-urban-blue text-urban-blue text-button-text font-display font-medium leading-normal tracking-[0.015em]">
+                                <span class="material-symbols-outlined text-3xl">add_a_photo</span>
+                                <span class="truncate">Añadir Foto</span>
+                            </button>
+                            <button data-go="edit_text_screen" class="flex-1 flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-16 px-5 bg-white border border-urban-blue text-urban-blue text-button-text font-display font-medium leading-normal tracking-[0.015em]">
+                                <span class="material-symbols-outlined text-3xl">edit</span>
+                                <span class="truncate">Editar Texto</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex px-4 py-3 justify-center mt-6">
+                        <button data-go="review_and_submit_screen" class="flex min-w-[84px] w-full max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-16 px-5 flex-1 bg-primary text-white text-button-text font-display font-medium leading-normal tracking-[0.015em]">
+                            <span class="truncate">Confirmar Envío</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review and Submit Screen -->
+        <div id="review_and_submit_screen" class="screen">
+            <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden bg-urban-blue font-body text-text-main">
+                <div class="flex items-center p-4 pb-2 justify-between bg-urban-blue text-white">
+                    <button data-go="pothole_details_input_screen" class="flex size-12 shrink-0 items-center justify-center">
+                        <span class="material-symbols-outlined !text-3xl">arrow_back</span>
+                    </button>
+                    <h2 class="text-white text-[28px] font-bold font-display flex-1 text-center">Revisar Reporte</h2>
+                    <div class="size-12 shrink-0"></div>
+                </div>
+                <div class="flex flex-col gap-6 p-4 bg-urban-blue flex-grow">
+                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl object-cover" data-alt="Mapa que muestra un pin en la ubicación reportada." data-location="Cualquier Pueblo, EE. UU." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBn_VtIItAjm8J5OPgBL2M996P5fGJv8tlQwouikTAHG4d-JCyjj8vk5uzdI6g7VGXuAMN7mlqzQK6R2x5kEqqK2SYEklkkrqnLQbCUhZb4LFZq_TyqW3pUu-5jkbid96-rMdex-7AiFUrKfEfx8YyBR2LPxKpASOKoqYGQrVoQCJwBfc2vfROWv_U016MBQPADv3v7SWrFPG3a7E9z3MkujMyfjjq4Jjk8-B9ybpL6CS80tmEqSKF5zJShrX_puNdMBus9Fr_mnKM");'></div>
+                    <div class="bg-background-light rounded-xl p-4 flex flex-col gap-4">
+                        <div class="flex items-start gap-4 min-h-[72px]">
+                            <div class="text-text-main flex items-center justify-center pt-1">
+                                <span class="material-symbols-outlined">location_on</span>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <p class="text-text-main text-base font-bold font-body leading-normal line-clamp-1">Ubicación</p>
+                                <p class="text-text-main text-base font-normal font-body leading-normal line-clamp-2">Ubicación Actual (GPS)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 min-h-[72px]">
+                            <div class="text-text-main flex items-center justify-center pt-1">
+                                <span class="material-symbols-outlined">warning</span>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <p class="text-text-main text-base font-bold font-body leading-normal line-clamp-1">Detalles del Bache</p>
+                                <p class="text-text-main text-base font-normal font-body leading-normal line-clamp-2">Bache grande, de aproximadamente 60 cm de ancho, causando problemas significativos para el tráfico.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 min-h-[72px]">
+                            <div class="text-text-main flex items-center justify-center pt-1">
+                                <span class="material-symbols-outlined">photo_camera</span>
+                            </div>
+                            <div class="flex flex-col justify-center w-full">
+                                <p class="text-text-main text-base font-bold font-body leading-normal line-clamp-1">Fotos</p>
+                                <div class="mt-2 flex gap-3 overflow-x-auto pb-2">
+                                    <div class="w-20 h-20 bg-center bg-no-repeat aspect-square bg-cover rounded-lg object-cover flex-shrink-0" data-alt="Primer plano del bache desde el lateral." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCwY-FpnQcR4RKAtskToI0VTPIzn1kLG1ujdRJEW1y_ywqb926U0cFZpYWdypHA7vrUolv8uMZVcUEoTh6j-SF79P6ZxRybGOmAn1FyTLYG-DDT7WBUTchCsGgYR5ruI5VPj70B2NPhVuf2V7cWoJjbJju3jNoKbH-QauwxMhD2WZQ7P7t-kdaeksK8OHD9-j6ZBI0gT0vlomSBxqgTQZN9zuQIo1tvnMTGRGhO18Z4ATxHh_l4zcd_jiGjBJditd6eo8gq3KNGumg");'></div>
+                                    <div class="w-20 h-20 bg-center bg-no-repeat aspect-square bg-cover rounded-lg object-cover flex-shrink-0" data-alt="Vista del bache desde la distancia mostrando el contexto del tráfico." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuChMuKy2RkKM2cyXwDU8F0Ib6WFm572WJLnLmlWsppIgGGpDRqquJxH_XDCu8hBInTzuhIGuJxrd2Stgme9UTn8R0UpCsj5eX7FTVW4PqVSwVtHGyHR_4LrxI1wTCnSNvhT_DDyBs2oUYvSXGj3PlhGQCEjwzuqqbuk7TNhAqjgQlMvjCFwXrjho3gC9nJ5s65LFxU_iiGj_DrX0M8r6XJwLWecjmgCmk6LxoIGYuhG6mPd9E5NpgJCvLt_ZLwPt7Zfbdeo7uLQRq8");'></div>
+                                    <div class="w-20 h-20 bg-center bg-no-repeat aspect-square bg-cover rounded-lg object-cover flex-shrink-0" data-alt="Otro ángulo del bache." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD8TKhxoDcxPo781Hx54sqrcOGt2Px5FTEmtRPI2tXL6BxFDtfFKX-TuUARmhPyBi2JBsbl_ZeKkIenfSD800AKZO4op_o-QmWmGhbbxaZPOXZBcHBCxWqw6lgZFS9TP7pZ7d4YXKSfE3237LJp7pRObP0EHYl1E3Teyx6dIclmaIdxFC5eGcVhiFBa6uGVsR2Y1PeQ_fXC2vjYTXHakSwJVMWNe7-TYoI7ViGxa3KxYyxONSUocyPKc7G4JKyIEPUOhzJGB9qj_tk");'></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 bg-urban-blue">
+                    <button data-go="report_submission_confirmation" class="w-full bg-action text-white font-display text-lg font-medium py-4 rounded-lg flex items-center justify-center h-[56px]">
+                        Confirmar Envío
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Submission Confirmation -->
+        <div id="report_submission_confirmation" class="screen">
+            <div class="relative flex h-screen w-full flex-col items-center justify-center bg-urban-blue p-4 group/design-root font-roboto">
+                <div class="flex flex-col items-center justify-center text-center w-full max-w-sm">
+                    <div class="mb-8 flex h-24 w-24 items-center justify-center rounded-full bg-success-green">
+                        <span class="material-symbols-outlined text-white" style="font-size: 64px;">check</span>
+                    </div>
+                    <h2 class="text-white font-poppins font-bold text-[28px] tracking-tight mb-2">¡Reporte Enviado!</h2>
+                    <p class="text-white text-base font-normal leading-normal mb-2">¡Gracias por ayudar a mejorar tu ciudad! Tu reporte ha sido recibido.</p>
+                    <p class="text-white/80 text-sm font-normal leading-normal mb-12">ID del Reporte: 123-456-789</p>
+                    <div class="w-full flex flex-col space-y-4">
+                        <button data-go="home_screen" class="w-full rounded bg-signal-orange py-3 text-white font-poppins font-medium text-lg">Volver al Inicio</button>
+                        <button data-go="my_reports_screen" class="w-full rounded border border-white py-3 text-white font-poppins font-medium text-lg">Ver Mi Reporte</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Voice Report Confirmation (text) -->
+            <!-- Voice Report Screen -->
+            <div id="voice_report_screen" class="screen">
+                <div class="relative flex h-screen min-h-screen w-full flex-col group/design-root overflow-x-hidden bg-urban-blue text-white font-body">
+                    <div class="flex flex-col items-center justify-center grow px-4 pt-12">
+                        <div class="w-full max-w-md rounded-xl bg-card-background p-8 text-center flex flex-col items-center shadow-lg">
+                            <div class="mb-6">
+                                <span class="material-symbols-outlined text-primary animate-pulse" style="font-size: 64px;">mic</span>
+                            </div>
+                            <p class="text-text-main text-2xl font-display font-bold mb-2">Díganos la ubicación del bache.</p>
+                            <p class="text-text-main/70 text-base font-body mb-6">Por favor, indique las calles transversales más cercanas.</p>
+                            <div class="bg-gray-200 p-4 rounded-lg w-full min-h-[80px] text-left">
+                                <p class="text-text-main text-base font-body">Veo un bache en la Calle Principal cerca de la esquina de la Avenida del Roble...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-4 p-4">
+                        <div class="flex justify-stretch">
+                            <div class="flex flex-1 gap-3 flex-wrap justify-between">
+                                <button data-go="home_screen" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-gray-300 text-text-main text-lg font-display font-medium leading-normal tracking-[0.015em] flex-1">
+                                    <span class="truncate">Detener</span>
+                                </button>
+                                <button data-go="voice_report_confirmation" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-primary text-text-on-primary text-lg font-display font-medium leading-normal tracking-[0.015em] flex-1">
+                                    <span class="truncate">Siguiente</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Voice Report Confirmation (text) -->
+        <div id="voice_report_confirmation" class="screen">
+            <div class="relative flex h-auto min-h-screen w-full flex-col bg-urban-blue group/design-root overflow-x-hidden text-text-main font-body">
+                <div class="flex items-center bg-urban-blue p-4 pb-2 justify-between">
+                    <button data-go="home_screen" class="text-white flex size-12 shrink-0 items-center">
+                        <span class="material-symbols-outlined text-3xl">arrow_back</span>
+                    </button>
+                    <h1 class="text-white text-3xl font-bold font-display leading-tight tracking-[-0.015em] flex-1 text-center">Revise su Reporte</h1>
+                    <div class="size-12"></div>
+                </div>
+                <div class="flex-grow bg-background-secondary rounded-t-3xl pt-8 px-4">
+                    <p class="text-text-main text-base leading-normal pb-3">Por favor, revise el texto transcrito de su reporte de voz.</p>
+                    <div class="bg-white rounded-lg shadow-md p-4 mb-8">
+                        <p class="text-text-main text-base leading-normal">
+                            El bache está en la esquina de la Calle Principal y la 2ª Avenida, justo en frente de la panadería. Mide como un pie de ancho y es bastante profundo, casi pierdo mi llanta en él.
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <button data-go="voice_report_location_confirmation" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-action text-white text-lg font-medium font-display leading-normal tracking-[0.015em] w-full shadow-lg">
+                            <span class="material-symbols-outlined mr-2">check_circle</span>
+                            <span class="truncate">Confirmar</span>
+                        </button>
+                        <button data-go="edit_text_screen" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-white text-urban-blue text-lg font-medium font-display leading-normal tracking-[0.015em] w-full border-2 border-urban-blue">
+                            <span class="material-symbols-outlined mr-2">edit</span>
+                            <span class="truncate">Editar Texto</span>
+                        </button>
+                        <button data-go="home_screen" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-transparent text-text-main/80 text-lg font-medium font-display leading-normal tracking-[0.015em] w-full">
+                            <span class="material-symbols-outlined mr-2">mic</span>
+                            <span class="truncate">Volver a grabar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Voice Report Location Confirmation -->
+        <div id="voice_report_location_confirmation" class="screen">
+            <div class="relative flex min-h-screen w-full flex-col font-body bg-background-light dark:bg-background-dark">
+                <header class="bg-secondary p-4 pb-2 text-white">
+                    <div class="flex items-center justify-between">
+                        <button data-go="voice_report_confirmation" class="flex size-12 shrink-0 items-center justify-center">
+                            <span class="material-symbols-outlined" style="font-size: 32px;">arrow_back</span>
+                        </button>
+                        <h1 class="font-display text-2xl font-bold leading-tight tracking-tight text-center flex-1 pr-12">Confirmar Ubicación</h1>
+                    </div>
+                </header>
+                <main class="flex flex-1 flex-col">
+                    <div class="relative flex-1">
+                        <div class="absolute inset-0 bg-cover bg-center" data-alt="Una vista de mapa de una ciudad con calles y edificios." data-location="Cualquierpueblo, EE.UU." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCAoknqA5H6Z5PmPFUuZXO1Xf0t5HQDMNfyLwVOlF9Q_8kdMUyHPR5Hh-bdHAq6P27_Fuj142M1EkN37HNNrS3JCPcpvGPskjb5JWTKDNLYtmSn1xtGXl84SKtFQglnyl1NBxaG-oQEhqfH_rqZK7QLIJE3YFso6Dji08Tg9kfq4m8bJqEtCjkyFAr-kg87fHuByNM2rcY2qmGp-50opra36SZiwiXsmVMd-Sw1B5fFvFE1y59lQTGNmKgqyQrzzgRqmjlHMZfw8OY");'>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-secondary" style="font-size: 48px;">location_on</span>
+                            </div>
+                            <div class="absolute bottom-24 right-4 flex flex-col gap-2">
+                                <button class="flex size-12 items-center justify-center rounded-lg bg-white shadow-lg">
+                                    <span class="material-symbols-outlined text-text-main" style="font-size: 32px;">add</span>
+                                </button>
+                                <button class="flex size-12 items-center justify-center rounded-lg bg-white shadow-lg">
+                                    <span class="material-symbols-outlined text-text-main" style="font-size: 32px;">remove</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="p-4 bg-background-light dark:bg-background-dark">
+                    <div class="mb-4 rounded-lg bg-card-background p-4 shadow-md dark:bg-zinc-800">
+                        <div class="flex flex-col">
+                            <p class="font-display text-lg font-bold text-text-main dark:text-white">Calle Principal 123</p>
+                            <p class="text-base text-gray-600 dark:text-gray-300">Cualquierpueblo, EE.UU. 12345</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <button data-go="review_and_submit_screen" class="flex w-full cursor-pointer items-center justify-center rounded-lg h-14 px-5 bg-primary text-white font-display text-lg font-medium">
+                            <span class="truncate">Sí, es aquí</span>
+                        </button>
+                        <button data-go="location_input_screen" class="flex w-full cursor-pointer items-center justify-center rounded-lg h-14 px-5 border-2 border-secondary bg-background-light text-secondary font-display text-lg font-medium dark:bg-background-dark">
+                            <span class="truncate">Ajustar Ubicación</span>
+                        </button>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+        </div>
+
+        <!-- Edit Text Screen (dedicated) -->
+        <div id="edit_text_screen" class="screen">
+            <div class="relative flex min-h-screen w-full flex-col bg-primary/5 dark:bg-background-dark font-body">
+                <div class="flex items-center p-4 pb-2 justify-between bg-secondary text-white">
+                    <button data-go="voice_report_confirmation" class="flex size-12 shrink-0 items-center justify-center">
+                        <span class="material-symbols-outlined text-3xl">arrow_back</span>
+                    </button>
+                    <h2 class="text-white text-[24px] font-bold font-display flex-1 text-center">Editar Texto</h2>
+                    <div class="size-12"></div>
+                </div>
+                <div class="p-4 flex flex-col gap-4 flex-1">
+                    <p class="text-text-main dark:text-white text-sm">Ajuste la transcripción antes de continuar.</p>
+                    <textarea class="w-full flex-1 min-h-[200px] p-4 rounded-lg bg-white dark:bg-zinc-800 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-secondary focus:border-secondary font-body text-base" id="editedText" placeholder="Edite el texto del reporte">El bache está en la esquina de la Calle Principal y la 2ª Avenida, justo en frente de la panadería. Mide como un pie de ancho y es bastante profundo.</textarea>
+                    <div class="flex gap-3">
+                        <button data-go="voice_report_confirmation" class="flex-1 h-12 rounded-lg border-2 border-secondary text-secondary bg-white font-display font-medium">Cancelar</button>
+                        <button data-go="voice_report_location_confirmation" class="flex-1 h-12 rounded-lg bg-primary text-white font-display font-medium">Guardar & Continuar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Detail Screen -->
+        <div id="report_detail_screen" class="screen">
+            <div class="relative flex min-h-screen w-full flex-col bg-background-light dark:bg-background-dark font-body">
+                <div class="flex items-center p-4 pb-2 justify-between bg-urban-blue text-white">
+                    <button data-go="my_reports_screen" class="flex size-12 shrink-0 items-center justify-center">
+                        <span class="material-symbols-outlined text-3xl">arrow_back</span>
+                    </button>
+                    <h2 class="text-white text-[24px] font-bold font-display flex-1 text-center">Detalle del Reporte</h2>
+                    <div class="size-12"></div>
+                </div>
+                <div class="p-4 flex flex-col gap-6 flex-1">
+                    <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl" style="background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuBn_VtIItAjm8J5OPgBL2M996P5fGJv8tlQwouikTAHG4d-JCyjj8vk5uzdI6g7VGXuAMN7mlqzQK6R2x5kEqqK2SYEklkkrqnLQbCUhZb4LFZq_TyqW3pUu-5jkbid96-rMdex-7AiFUrKfEfx8YyBR2LPxKpASOKoqYGQrVoQCJwBfc2vfROWv_U016MBQPADv3v7SWrFPG3a7E9z3MkujMyfjjq4Jjk8-B9ybpL6CS80tmEqSKF5zJShrX_puNdMBus9Fr_mnKM');"></div>
+                    <div class="bg-white dark:bg-zinc-800 rounded-xl p-4 shadow flex flex-col gap-2">
+                        <h3 class="text-lg font-display font-bold text-text-main dark:text-white">Estado: Enviado</h3>
+                        <p class="text-sm text-text-main/80 dark:text-white/80">ID de Reporte: 12345</p>
+                        <p class="text-base text-text-main dark:text-white leading-relaxed">Bache grande situado en Avenida del Roble 456. Aproximadamente 60 cm de ancho, profundo y peligroso para ciclistas.</p>
+                    </div>
+                    <div class="bg-white dark:bg-zinc-800 rounded-xl p-4 shadow">
+                        <h4 class="text-base font-display font-semibold mb-2">Fotos</h4>
+                        <div class="flex gap-3 overflow-x-auto pb-2">
+                            <div class="w-24 h-24 rounded-lg bg-cover bg-center flex-shrink-0" style="background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuCwY-FpnQcR4RKAtskToI0VTPIzn1kLG1ujdRJEW1y_ywqb926U0cFZpYWdypHA7vrUolv8uMZVcUEoTh6j-SF79P6ZxRybGOmAn1FyTLYG-DDT7WBUTchCsGgYR5ruI5VPj70B2NPhVuf2V7cWoJjbJju3jNoKbH-QauwxMhD2WZQ7P7t-kdaeksK8OHD9-j6ZBI0gT0vlomSBxqgTQZN9zuQIo1tvnMTGRGhO18Z4ATxHh_l4zcd_jiGjBJditd6eo8gq3KNGumg');"></div>
+                            <div class="w-24 h-24 rounded-lg bg-cover bg-center flex-shrink-0" style="background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuChMuKy2RkKM2cyXwDU8F0Ib6WFm572WJLnLmlWsppIgGGpDRqquJxH_XDCu8hBInTzuhIGuJxrd2Stgme9UTn8R0UpCsj5eX7FTVW4PqVSwVtHGyHR_4LrxI1wTCnSNvhT_DDyBs2oUYvSXGj3PlhGQCEjwzuqqbuk7TNhAqjgQlMvjCFwXrjho3gC9nJ5s65LFxU_iiGj_DrX0M8r6XJwLWecjmgCmk6LxoIGYuhG6mPd9E5NpgJCvLt_ZLwPt7Zfbdeo7uLQRq8');"></div>
+                            <div class="w-24 h-24 rounded-lg bg-cover bg-center flex-shrink-0" style="background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuD8TKhxoDcxPo781Hx54sqrcOGt2Px5FTEmtRPI2tXL6BxFDtfFKX-TuUARmhPyBi2JBsbl_ZeKkIenfSD800AKZO4op_o-QmWmGhbbxaZPOXZBcHBCxWqw6lgZFS9TP7pZ7d4YXKSfE3237LJp7pRObP0EHYl1E3Teyx6dIclmaIdxFC5eGcVhiFBa6uGVsR2Y1PeQ_fXC2vjYTXHakSwJVMWNe7-TYoI7ViGxa3KxYyxONSUocyPKc7G4JKyIEPUOhzJGB9qj_tk');"></div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <button data-go="home_screen" class="flex-1 h-12 rounded-lg bg-secondary text-white font-display font-medium">Inicio</button>
+                        <button data-go="my_reports_screen" class="flex-1 h-12 rounded-lg border-2 border-secondary text-secondary font-display font-medium bg-white">Mis Reportes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Gallery (Draft) -->
+        <div id="photo_gallery_draft" class="screen">
+            <div class="relative flex min-h-screen w-full flex-col bg-white dark:bg-background-dark font-body">
+                <div class="flex items-center p-4 pb-2 justify-between bg-urban-blue text-white">
+                    <button data-go="report_confirmation_and_editing" class="flex size-12 shrink-0 items-center justify-center">
+                        <span class="material-symbols-outlined text-3xl">arrow_back</span>
+                    </button>
+                    <h2 class="text-white text-[24px] font-bold font-display flex-1 text-center">Fotos del Borrador</h2>
+                    <div class="size-12"></div>
+                </div>
+                <div class="p-4 flex flex-col gap-4 flex-1">
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="aspect-square rounded-lg bg-gray-200 flex items-center justify-center text-gray-500">Vacío</div>
+                        <div class="aspect-square rounded-lg bg-gray-200 flex items-center justify-center text-gray-500">Vacío</div>
+                        <div class="aspect-square rounded-lg bg-gray-200 flex items-center justify-center text-gray-500">Vacío</div>
+                    </div>
+                    <button class="h-14 rounded-lg border-2 border-dashed border-secondary text-secondary font-display font-medium flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined">add_a_photo</span>
+                        Añadir Fotos
+                    </button>
+                </div>
+                <div class="p-4 flex gap-3">
+                    <button data-go="report_confirmation_and_editing" class="flex-1 h-12 rounded-lg bg-primary text-white font-display font-medium">Guardar</button>
+                    <button data-go="report_confirmation_and_editing" class="flex-1 h-12 rounded-lg border-2 border-primary text-primary font-display font-medium bg-white">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Gallery (Details Screen) -->
+        <div id="photo_gallery_details" class="screen">
+            <div class="relative flex min-h-screen w-full flex-col bg-white dark:bg-background-dark font-body">
+                <div class="flex items-center p-4 pb-2 justify-between bg-secondary text-white">
+                    <button data-go="pothole_details_input_screen" class="flex size-12 shrink-0 items-center justify-center">
+                        <span class="material-symbols-outlined text-3xl">arrow_back</span>
+                    </button>
+                    <h2 class="text-white text-[24px] font-bold font-display flex-1 text-center">Fotos del Reporte</h2>
+                    <div class="size-12"></div>
+                </div>
+                <div class="p-4 flex flex-col gap-4 flex-1">
+                    <div class="flex gap-3 overflow-x-auto pb-2">
+                        <div class="w-24 h-24 rounded-lg bg-gray-200 flex items-center justify-center text-gray-500">Vacío</div>
+                        <div class="w-24 h-24 rounded-lg bg-gray-200 flex items-center justify-center text-gray-500">Vacío</div>
+                        <div class="w-24 h-24 rounded-lg bg-gray-200 flex items-center justify-center text-gray-500">Vacío</div>
+                    </div>
+                    <button class="h-14 rounded-lg border-2 border-dashed border-secondary text-secondary font-display font-medium flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined">add_a_photo</span>
+                        Añadir Fotos
+                    </button>
+                </div>
+                <div class="p-4 flex gap-3">
+                    <button data-go="pothole_details_input_screen" class="flex-1 h-12 rounded-lg bg-primary text-white font-display font-medium">Guardar</button>
+                    <button data-go="pothole_details_input_screen" class="flex-1 h-12 rounded-lg border-2 border-primary text-primary font-display font-medium bg-white">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+    <script>
+        // Simple router-like helper for prototype
+        function showScreen(id) {
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach((el) => {
+                el.classList.remove('active');
+                el.setAttribute('aria-hidden', 'true');
+            });
+            const target = document.getElementById(id);
+            if (target) {
+                target.classList.add('active');
+                target.removeAttribute('aria-hidden');
+                // Keep URL hash in sync for easy sharing/reload
+                if (location.hash !== '#' + id) {
+                    history.pushState(null, '', '#' + id);
+                }
+                // Scroll to top of the new screen
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+        }
+
+        // Click delegation: any element with data-go switches screen
+        document.addEventListener('click', (e) => {
+            const go = e.target.closest('[data-go]');
+            if (go) {
+                const id = go.getAttribute('data-go');
+                if (id) {
+                    e.preventDefault();
+                    showScreen(id);
+                }
+            }
+        });
+
+        // Handle back/forward navigation
+        window.addEventListener('popstate', () => {
+            const id = (location.hash || '#home_screen').slice(1);
+            showScreen(id);
+        });
+
+        // Initial route
+        (function init() {
+            const initial = (location.hash || '#home_screen').slice(1);
+            showScreen(initial);
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reporte de Baches</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&amp;family=Roboto:wght@400&amp;family=Public+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#FF6D00",
+                        "background-light": "#1E88E5",
+                        "background-dark": "#125488", // A darker shade for dark mode
+                        "card-background": "#F5F5F5",
+                        "text-main": "#212121",
+                        "text-on-primary": "#FFFFFF"
+                    },
+                    fontFamily: {
+                        "display": ["Poppins", "sans-serif"],
+                        "body": ["Roboto", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.75rem", // 12px
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .font-display { font-family: 'Poppins', sans-serif; }
+        .font-body { font-family: 'Roboto', sans-serif; }
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+        }
+        .animate-pulse-custom {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-body">
+<div class="relative flex h-screen min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="flex flex-col items-center justify-center grow px-4 pt-12">
+<div class="w-full max-w-md rounded-xl bg-card-background p-8 text-center flex flex-col items-center shadow-lg">
+<div class="mb-6">
+<span class="material-symbols-outlined text-text-main animate-pulse-custom" style="font-size: 64px;">mic</span>
+</div>
+<p class="text-text-main text-2xl font-display font-bold mb-2">Díganos la ubicación del bache.</p>
+<p class="text-text-main/70 text-base font-body mb-6">Por favor, indique las calles transversales más cercanas.</p>
+<div class="bg-gray-200 p-4 rounded-lg w-full min-h-[80px]">
+<p class="text-text-main text-base font-body text-left">Veo un bache en la Calle Principal cerca de la esquina de la Avenida del Roble...</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 p-4">
+<div class="flex justify-stretch">
+<div class="flex flex-1 gap-3 flex-wrap justify-between">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-gray-300 text-text-main text-lg font-display font-medium leading-normal tracking-[0.015em] flex-1">
+<span class="truncate">Detener</span>
+</button>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-primary text-text-on-primary text-lg font-display font-medium leading-normal tracking-[0.015em] flex-1">
+<span class="truncate">Siguiente</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

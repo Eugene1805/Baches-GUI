@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reporte Enviado</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&amp;family=Poppins:wght@500;700&amp;family=Roboto&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#ff7300",
+            "background-light": "#f8f7f5",
+            "background-dark": "#23180f",
+            "urban-blue": "#1E88E5",
+            "signal-orange": "#FF5722",
+            "dark-gray": "#212121",
+            "success-green": "#43A047",
+          },
+          fontFamily: {
+            "display": ["Public Sans", "sans-serif"],
+            "poppins": ["Poppins", "sans-serif"],
+            "roboto": ["Roboto", "sans-serif"],
+          },
+          borderRadius: {
+            "DEFAULT": "0.75rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 48
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-urban-blue font-roboto">
+<div class="relative flex h-screen w-full flex-col items-center justify-center bg-urban-blue p-4 group/design-root">
+<div class="flex flex-col items-center justify-center text-center w-full max-w-sm">
+<div class="mb-8 flex h-24 w-24 items-center justify-center rounded-full bg-success-green">
+<span class="material-symbols-outlined text-white" style="font-size: 64px;">check</span>
+</div>
+<h2 class="text-white font-poppins font-bold text-[28px] tracking-tight mb-2">¡Reporte Enviado!</h2>
+<p class="text-white text-base font-normal leading-normal mb-2">¡Gracias por ayudar a mejorar tu ciudad! Tu reporte ha sido recibido.</p>
+<p class="text-white/80 text-sm font-normal leading-normal mb-12">ID del Reporte: 123-456-789</p>
+<div class="w-full flex flex-col space-y-4">
+<button class="w-full rounded bg-signal-orange py-3 text-white font-poppins font-medium text-lg">Volver al Inicio</button>
+<button class="w-full rounded border border-white py-3 text-white font-poppins font-medium text-lg">Ver Mi Reporte</button>
+</div>
+</div>
+</div>
+</body></html>
