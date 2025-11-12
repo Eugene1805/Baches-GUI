@@ -230,20 +230,23 @@
                 <div class="px-4 py-5">
                     <p class="text-dark-gray dark:text-white text-base font-normal leading-normal pb-6 pt-1 font-body">Ayúdenos a entender el problema. Proporcione algunos detalles a continuación.</p>
                     <h2 class="text-dark-gray dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] pb-3 font-display">Tamaño del Bache</h2>
-                    <div class="flex space-x-4">
-                        <label class="flex flex-col items-center cursor-pointer flex-1 p-4 rounded-lg border-2 border-transparent has-[:checked]:border-primary bg-light-gray dark:bg-dark-gray/50 has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
-                            <div class="w-8 h-8 rounded-full bg-dark-gray/20 dark:bg-white/20 mb-2"></div>
-                            <span class="text-dark-gray dark:text-white font-body">Pequeño</span>
+                    <div class="flex space-x-3">
+                        <!-- Pequeño -->
+                        <label class="flex flex-col items-center cursor-pointer flex-1 p-3 rounded-lg border-2 border-transparent has-[:checked]:border-primary bg-light-gray dark:bg-dark-gray/50 has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20 has-[:checked]:ring-4 has-[:checked]:ring-primary/40 transition">
+                            <div class="w-10 h-10 rounded-full bg-secondary/30 dark:bg-white/30 mb-2 flex items-center justify-center text-[10px] text-dark-gray/70 dark:text-white/70">S</div>
+                            <span class="text-dark-gray dark:text-white font-body text-sm font-medium">Pequeño<br><span class="text-xs opacity-70">≈50cm</span></span>
                             <input class="sr-only" name="pothole-size" type="radio" value="Pequeño" />
                         </label>
-                        <label class="flex flex-col items-center cursor-pointer flex-1 p-4 rounded-lg border-2 border-transparent has-[:checked]:border-primary bg-light-gray dark:bg-dark-gray/50 has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
-                            <div class="w-12 h-12 rounded-full bg-dark-gray/20 dark:bg-white/20 mb-2"></div>
-                            <span class="text-dark-gray dark:text-white font-body">Mediano</span>
+                        <!-- Mediano -->
+                        <label class="flex flex-col items-center cursor-pointer flex-1 p-3 rounded-lg border-2 border-transparent has-[:checked]:border-primary bg-light-gray dark:bg-dark-gray/50 has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20 has-[:checked]:ring-4 has-[:checked]:ring-primary/40 transition">
+                            <div class="w-14 h-14 rounded-full bg-secondary/40 dark:bg-white/40 mb-2 flex items-center justify-center text-xs text-dark-gray/70 dark:text-white/70">M</div>
+                            <span class="text-dark-gray dark:text-white font-body text-sm font-medium">Mediano<br><span class="text-xs opacity-70">≈1m</span></span>
                             <input checked class="sr-only" name="pothole-size" type="radio" value="Mediano" />
                         </label>
-                        <label class="flex flex-col items-center cursor-pointer flex-1 p-4 rounded-lg border-2 border-transparent has-[:checked]:border-primary bg-light-gray dark:bg-dark-gray/50 has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20">
-                            <div class="w-16 h-16 rounded-full bg-dark-gray/20 dark:bg-white/20 mb-2"></div>
-                            <span class="text-dark-gray dark:text-white font-body">Grande</span>
+                        <!-- Grande -->
+                        <label class="flex flex-col items-center cursor-pointer flex-1 p-3 rounded-lg border-2 border-transparent has-[:checked]:border-primary bg-light-gray dark:bg-dark-gray/50 has-[:checked]:bg-primary/10 dark:has-[:checked]:bg-primary/20 has-[:checked]:ring-4 has-[:checked]:ring-primary/40 transition">
+                            <div class="w-20 h-20 rounded-full bg-secondary/50 dark:bg-white/50 mb-2 flex items-center justify-center text-sm text-dark-gray/70 dark:text-white/70">G</div>
+                            <span class="text-dark-gray dark:text-white font-body text-sm font-medium">Grande<br><span class="text-xs opacity-70">≥2m</span></span>
                             <input class="sr-only" name="pothole-size" type="radio" value="Grande" />
                         </label>
                     </div>
@@ -403,7 +406,7 @@
                                 <button data-go="home_screen" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-gray-300 text-text-main text-lg font-display font-medium leading-normal tracking-[0.015em] flex-1">
                                     <span class="truncate">Detener</span>
                                 </button>
-                                <button data-go="voice_report_confirmation" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-primary text-text-on-primary text-lg font-display font-medium leading-normal tracking-[0.015em] flex-1">
+                                <button data-go="voice_report_map_location_voice_screen" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-primary text-text-on-primary text-lg font-display font-medium leading-normal tracking-[0.015em] flex-1">
                                     <span class="truncate">Siguiente</span>
                                 </button>
                             </div>
@@ -412,7 +415,92 @@
                 </div>
             </div>
 
+            <!-- Nueva pantalla: Ubicación con Mapa (flujo por voz, antes de tamaño) -->
+            <div id="voice_report_map_location_voice_screen" class="screen">
+                <div class="relative flex h-screen min-h-screen w-full flex-col overflow-x-hidden bg-urban-blue text-white font-body">
+                    <div class="flex items-center p-4 pb-2 justify-between">
+                        <button data-go="voice_report_screen" class="flex size-12 shrink-0 items-center justify-center">
+                            <span class="material-symbols-outlined text-3xl">arrow_back</span>
+                        </button>
+                        <h2 class="text-white text-[24px] font-bold font-display flex-1 text-center">Ubicación</h2>
+                        <div class="size-12"></div>
+                    </div>
+                    <div class="flex flex-col items-center justify-center grow px-4 pt-2">
+                        <div class="w-full max-w-md rounded-xl bg-card-background p-6 text-center flex flex-col items-center shadow-lg">
+                            <div class="mb-4 flex flex-col items-center">
+                                <span class="material-symbols-outlined text-primary animate-pulse" style="font-size:56px;">mic</span>
+                                <p class="mt-1 text-xs text-text-main/60">Escuchando…</p>
+                            </div>
+                            <div class="mb-2 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">my_location</span>
+                                <p class="text-text-main text-base font-display font-semibold">¿Usar tu ubicación actual?</p>
+                            </div>
+                            <div class="w-full aspect-video rounded-lg overflow-hidden relative mb-4">
+                                <div class="absolute inset-0 bg-center bg-cover" style="background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuBn_VtIItAjm8J5OPgBL2M996P5fGJv8tlQwouikTAHG4d-JCyjj8vk5uzdI6g7VGXuAMN7mlqzQK6R2x5kEqqK2SYEklkkrqnLQbCUhZb4LFZq_TyqW3pUu-5jkbid96-rMdex-7AiFUrKfEfx8YyBR2LPxKpASOKoqYGQrVoQCJwBfc2vfROWv_U016MBQPADv3v7SWrFPG3a7E9z3MkujMyfjjq4Jjk8-B9ybpL6CS80tmEqSKF5zJShrX_puNdMBus9Fr_mnKM');"></div>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-secondary" style="font-size:48px;">location_on</span>
+                                </div>
+                            </div>
+                            <p class="text-text-main/70 text-sm font-body mb-4">Puedes decir: “Usar ubicación” o “Omitir”.</p>
+                            <div class="flex items-center justify-center gap-1 h-4 mb-2" aria-hidden="true">
+                                <span class="w-1 h-4 bg-primary rounded animate-pulse"></span>
+                                <span class="w-1 h-4 bg-secondary rounded animate-pulse [animation-delay:200ms]"></span>
+                                <span class="w-1 h-4 bg-primary/70 rounded animate-pulse [animation-delay:400ms]"></span>
+                                <span class="w-1 h-4 bg-secondary/70 rounded animate-pulse [animation-delay:600ms]"></span>
+                            </div>
+                            <div class="flex flex-col gap-3 w-full">
+                                <button data-go="voice_report_size_screen" class="w-full h-14 rounded-lg bg-primary text-white font-display font-medium flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined">my_location</span>
+                                    Usar mi ubicación actual
+                                </button>
+                                <button data-go="voice_report_size_screen" class="w-full h-14 rounded-lg border-2 border-urban-blue text-urban-blue bg-white font-display font-medium flex items-center justify-center">
+                                    Omitir por ahora
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nueva pantalla: tamaño del bache (flujo por voz) -->
+            <div id="voice_report_size_screen" class="screen">
+                <div class="relative flex h-screen min-h-screen w-full flex-col overflow-x-hidden bg-urban-blue text-white font-body">
+                    <div class="flex flex-col items-center justify-center grow px-4 pt-12">
+                        <div class="w-full max-w-md rounded-xl bg-card-background p-8 text-center flex flex-col items-center shadow-lg">
+                            <div class="mb-6 flex flex-col items-center">
+                                <span class="material-symbols-outlined text-primary animate-pulse" style="font-size:64px;">mic</span>
+                                <p class="mt-2 text-xs text-text-main/60">Escuchando…</p>
+                            </div>
+                            <p class="text-text-main text-2xl font-display font-bold mb-4">¿Cuál es el tamaño del bache?</p>
+                            <p class="text-text-main/70 text-base font-body mb-6">Diga: <span class="font-medium">Pequeño</span>, <span class="font-medium">Mediano</span> o <span class="font-medium">Grande</span>.</p>
+                            <div class="grid grid-cols-3 gap-3 w-full mb-6">
+                                <div class="flex flex-col items-center p-3 rounded-lg bg-white/70 backdrop-blur text-text-main" aria-hidden="true">
+                                    <div class="w-10 h-10 rounded-full bg-secondary/30 flex items-center justify-center text-sm font-bold">S</div>
+                                    <span class="mt-1 text-xs">Pequeño</span>
+                                </div>
+                                <div class="flex flex-col items-center p-3 rounded-lg bg-white/70 backdrop-blur text-text-main" aria-hidden="true">
+                                    <div class="w-14 h-14 rounded-full bg-secondary/40 flex items-center justify-center text-sm font-bold">M</div>
+                                    <span class="mt-1 text-xs">Mediano</span>
+                                </div>
+                                <div class="flex flex-col items-center p-3 rounded-lg bg-white/70 backdrop-blur text-text-main" aria-hidden="true">
+                                    <div class="w-20 h-20 rounded-full bg-secondary/50 flex items-center justify-center text-sm font-bold">G</div>
+                                    <span class="mt-1 text-xs">Grande</span>
+                                </div>
+                            </div>
+                            <div class="w-full text-left text-xs text-text-main/60">Ejemplo: “El bache es grande”.</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-4 p-4">
+                        <div class="flex flex-1 gap-3 flex-wrap justify-between">
+                            <button data-go="voice_report_map_location_voice_screen" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-gray-300 text-text-main text-lg font-display font-medium flex-1">Atrás</button>
+                            <button data-go="voice_report_review_voice_screen" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-primary text-text-on-primary text-lg font-display font-medium flex-1">Siguiente</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Voice Report Confirmation (text) -->
+        <!-- Pantalla original de confirmación por texto comentada para nuevo flujo por voz
         <div id="voice_report_confirmation" class="screen">
             <div class="relative flex h-auto min-h-screen w-full flex-col bg-urban-blue group/design-root overflow-x-hidden text-text-main font-body">
                 <div class="flex items-center bg-urban-blue p-4 pb-2 justify-between">
@@ -425,34 +513,19 @@
                 <div class="flex-grow bg-background-secondary rounded-t-3xl pt-8 px-4">
                     <p class="text-text-main text-base leading-normal pb-3">Por favor, revise el texto transcrito de su reporte de voz.</p>
                     <div class="bg-white rounded-lg shadow-md p-4 mb-8">
-                        <p class="text-text-main text-base leading-normal">
-                            El bache está en la esquina de la Calle Principal y la 2ª Avenida, justo en frente de la panadería. Mide como un pie de ancho y es bastante profundo, casi pierdo mi llanta en él.
-                        </p>
-                    </div>
-                    <div class="flex flex-col gap-4">
-                        <button data-go="voice_report_location_confirmation" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-action text-white text-lg font-medium font-display leading-normal tracking-[0.015em] w-full shadow-lg">
-                            <span class="material-symbols-outlined mr-2">check_circle</span>
-                            <span class="truncate">Confirmar</span>
-                        </button>
-                        <button data-go="edit_text_screen" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-white text-urban-blue text-lg font-medium font-display leading-normal tracking-[0.015em] w-full border-2 border-urban-blue">
-                            <span class="material-symbols-outlined mr-2">edit</span>
-                            <span class="truncate">Editar Texto</span>
-                        </button>
-                        <button data-go="home_screen" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-transparent text-text-main/80 text-lg font-medium font-display leading-normal tracking-[0.015em] w-full">
-                            <span class="material-symbols-outlined mr-2">mic</span>
-                            <span class="truncate">Volver a grabar</span>
-                        </button>
+                        <p class="text-text-main text-base leading-normal">Texto ejemplo…</p>
                     </div>
                 </div>
             </div>
         </div>
+        -->
 
         <!-- Voice Report Location Confirmation -->
         <div id="voice_report_location_confirmation" class="screen">
             <div class="relative flex min-h-screen w-full flex-col font-body bg-background-light dark:bg-background-dark">
                 <header class="bg-secondary p-4 pb-2 text-white">
                     <div class="flex items-center justify-between">
-                        <button data-go="voice_report_confirmation" class="flex size-12 shrink-0 items-center justify-center">
+                        <button data-go="voice_report_review_voice_screen" class="flex size-12 shrink-0 items-center justify-center">
                             <span class="material-symbols-outlined" style="font-size: 32px;">arrow_back</span>
                         </button>
                         <h1 class="font-display text-2xl font-bold leading-tight tracking-tight text-center flex-1 pr-12">Confirmar Ubicación</h1>
@@ -491,6 +564,65 @@
                         </button>
                     </div>
                 </footer>
+            </div>
+        </div>
+
+        <!-- Nueva pantalla: revisión por voz antes de confirmar ubicación final -->
+        <div id="voice_report_review_voice_screen" class="screen">
+            <div class="relative flex h-auto min-h-screen w-full flex-col bg-urban-blue text-white font-body overflow-x-hidden">
+                <div class="flex items-center p-4 pb-2 justify-between">
+                    <button data-go="voice_report_size_screen" class="flex size-12 shrink-0 items-center justify-center">
+                        <span class="material-symbols-outlined text-3xl">arrow_back</span>
+                    </button>
+                    <h2 class="text-white text-[24px] font-bold font-display flex-1 text-center">Revisión del Reporte</h2>
+                    <div class="size-12"></div>
+                </div>
+                <div class="flex flex-col gap-6 p-4 flex-grow">
+                    <div class="w-full max-w-md mx-auto rounded-xl bg-white text-text-main p-5 shadow-lg" aria-live="polite">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="material-symbols-outlined text-primary">fact_check</span>
+                            <h3 class="font-display font-semibold text-lg">Resumen Capturado</h3>
+                        </div>
+                        <div class="space-y-4 text-sm">
+                            <div>
+                                <p class="font-semibold text-xs text-gray-500 uppercase tracking-wide">Ubicación</p>
+                                <p class="leading-snug">(Transcripción de ubicación…) Calle Principal cerca de Avenida Roble frente a la panadería.</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-xs text-gray-500 uppercase tracking-wide">Tamaño</p>
+                                <p class="leading-snug">Grande (estimado ≥60cm)</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-xs text-gray-500 uppercase tracking-wide">Notas</p>
+                                <p class="leading-snug">Profundo y peligroso para ciclistas.</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex flex-col gap-2 text-xs text-gray-500">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-base text-primary">volume_up</span>
+                                <span class="text-gray-600">Leyendo resumen…</span>
+                            </div>
+                            <div class="flex items-center gap-1 h-4" aria-hidden="true">
+                                <span class="w-1 h-4 bg-primary rounded animate-pulse"></span>
+                                <span class="w-1 h-4 bg-secondary rounded animate-pulse [animation-delay:200ms]"></span>
+                                <span class="w-1 h-4 bg-primary/70 rounded animate-pulse [animation-delay:400ms]"></span>
+                                <span class="w-1 h-4 bg-secondary/70 rounded animate-pulse [animation-delay:600ms]"></span>
+                            </div>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="material-symbols-outlined text-base">mic</span>
+                                <span>Puede decir: “Confirmar”, “Repetir ubicación” o “Cambiar tamaño”.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-3 w-full max-w-md mx-auto">
+                        <button data-go="report_submission_confirmation" class="flex w-full cursor-pointer items-center justify-center rounded-lg h-14 px-5 bg-action text-white font-display text-lg font-medium shadow-lg">Confirmar y Enviar</button>
+                        <div class="flex gap-3">
+                            <button data-go="voice_report_map_location_voice_screen" class="flex-1 h-12 rounded-lg bg-white text-urban-blue font-display font-medium border-2 border-urban-blue">Regrabar Ubicación</button>
+                            <button data-go="voice_report_size_screen" class="flex-1 h-12 rounded-lg bg-white text-urban-blue font-display font-medium border-2 border-urban-blue">Cambiar Tamaño</button>
+                        </div>
+                        <button data-go="home_screen" class="w-full h-12 rounded-lg bg-transparent text-white/80 font-display font-medium">Cancelar</button>
+                    </div>
+                </div>
             </div>
         </div>
 
