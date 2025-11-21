@@ -81,6 +81,7 @@
                         <span class="material-symbols-outlined text-3xl">edit_square</span>
                         <span class="truncate">Nuevo Reporte Manual</span>
                     </button>
+                    <p id="home_voice_feedback" class="text-xs text-white/80 h-4" aria-live="assertive"></p>
                 </div>
                 <div class="flex px-4 py-6 justify-center">
                     <button data-go="my_reports_screen"
@@ -99,6 +100,15 @@
                         <span class="material-symbols-outlined">arrow_back</span>
                     </button>
                     <h1 class="text-white text-heading font-bold font-display flex-1 text-center">Reportar un Bache</h1>
+                </div>
+                <div class="px-4 pt-3">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-sm font-medium text-text-main dark:text-white">Paso 1 de 3</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Ubicación</p>
+                    </div>
+                    <div class="w-full h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                        <div class="h-full bg-primary rounded-full" style="width:33%;"></div>
+                    </div>
                 </div>
                 <div class="p-4 space-y-4 flex-1 flex flex-col">
                     <p class="text-center font-body text-body text-text-main dark:text-white">Marca la ubicación del bache</p>
@@ -158,7 +168,7 @@
                     </div>
                 </header>
                 <main class="flex-1 p-4 pb-24">
-                    <div class="space-y-4">
+                    <div class="space-y-4" id="my_reports_static">
                         <div class="flex flex-col bg-card-light dark:bg-card-dark rounded-lg shadow-sm overflow-hidden">
                             <div class="p-4 flex items-start gap-4">
                                 <span class="material-symbols-outlined text-primary text-4xl mt-1">edit_note</span>
@@ -205,6 +215,7 @@
                             </div>
                         </div>
                     </div>
+                    <div id="my_reports_dynamic_list" class="space-y-4 mt-6"></div>
                 </main>
                 <div class="fixed bottom-6 right-6 z-10">
                     <button data-go="location_input_screen" class="flex size-16 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-primary text-white shadow-lg hover:bg-orange-700 transition-colors">
@@ -224,8 +235,14 @@
                     <h1 class="text-white text-[28px] font-bold leading-tight flex-1 text-center font-display">Detalles del Bache</h1>
                     <div class="w-8"></div>
                 </div>
-                <div class="w-full bg-light-gray dark:bg-dark-gray/30 p-2 text-center">
-                    <p class="text-dark-gray dark:text-white text-sm font-body">Paso 2 de 3</p>
+                <div class="px-4 pt-3">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-sm font-medium text-dark-gray dark:text-white">Paso 2 de 3</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Detalles</p>
+                    </div>
+                    <div class="w-full h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                        <div class="h-full bg-primary rounded-full" style="width:66%;"></div>
+                    </div>
                 </div>
                 <div class="px-4 py-5">
                     <p class="text-dark-gray dark:text-white text-base font-normal leading-normal pb-6 pt-1 font-body">Ayúdenos a entender el problema. Proporcione algunos detalles a continuación.</p>
@@ -288,8 +305,50 @@
                     <div class="flex px-4 py-3">
                         <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl object-cover" data-alt="Un mapa mostrando la ubicación del bache" data-location="Centro de la Ciudad" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB41j1mDZwKAlBhZugH34YMBK79vGHIFaY7cE6TRV9vmJcwkvR7KVz2qRPq3fD4ZB8BphxrXWBJqQzVZXVZCaAI7gIeg9prGOsGE7AV-GW_iLR0bqucJ1GzdRqp5vBF-N3s2iEdjvYUfKMZ1X5STcfPcUBwxREXY3sgyZsSrU_vgqPb5lFtkGs9nNQZSJ44lsZZ8GxmvuDDISNEiDWXl6qF-UX4_67ToINhljbxHY1sU1WeKtTUvV-5JnjuF3_VXgTZ4TZK3zrMifY");'></div>
                     </div>
-                    <div class="bg-white rounded-lg p-4 mx-4 my-3">
-                        <p class="text-[#212121] text-body-text font-normal leading-normal">Hay un bache grande en la carretera principal cerca de la entrada del parque. Mide aproximadamente 60 centímetros de ancho y está causando problemas a los ciclistas.</p>
+                                        <div class="bg-white rounded-lg p-4 mx-4 my-3 space-y-4">
+                                                <div>
+                                                    <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">Descripción</label>
+                                                    <textarea id="manual_edit_description_textarea" class="mt-1 w-full min-h-[120px] p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary text-sm" placeholder="Describe el bache"> </textarea>
+                                                </div>
+                                                <div class="grid gap-4 sm:grid-cols-3">
+                                                    <div class="flex flex-col">
+                                                        <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">Ubicación</label>
+                                                        <input id="manual_edit_location_input" type="text" class="mt-1 w-full rounded-lg border border-gray-300 p-2 text-sm focus:ring-2 focus:ring-primary focus:border-primary" placeholder="Ubicación" />
+                                                    </div>
+                                                    <div class="flex flex-col sm:col-span-2">
+                                                        <label class="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">Tamaño</label>
+                                                        <div class="flex gap-3" id="manual_edit_size_group">
+                                                            <label class="flex items-center gap-2 text-sm cursor-pointer">
+                                                                <input name="manual-edit-size" value="pequeño" type="radio" class="text-primary focus:ring-primary" /> Pequeño
+                                                            </label>
+                                                            <label class="flex items-center gap-2 text-sm cursor-pointer">
+                                                                <input name="manual-edit-size" value="mediano" type="radio" class="text-primary focus:ring-primary" /> Mediano
+                                                            </label>
+                                                            <label class="flex items-center gap-2 text-sm cursor-pointer">
+                                                                <input name="manual-edit-size" value="grande" type="radio" class="text-primary focus:ring-primary" /> Grande
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex gap-3 pt-2">
+                                                    <button type="button" data-manual-save class="flex-1 h-12 rounded-lg bg-primary text-white font-display font-medium shadow">Guardar Cambios</button>
+                                                    <button type="button" data-go="review_and_submit_screen" class="flex-1 h-12 rounded-lg border-2 border-primary text-primary font-display font-medium bg-white">Ir a Revisión</button>
+                                                </div>
+                                                <p class="text-xs text-gray-500">Los cambios se guardan localmente en tu navegador.</p>
+                                        </div>
+                    <div class="mx-4 my-3 grid gap-3 grid-cols-1 sm:grid-cols-3" id="manual_report_meta">
+                        <div class="bg-white rounded-lg p-3 flex flex-col gap-1">
+                            <p class="text-xs font-bold uppercase tracking-wide text-gray-500">Ubicación</p>
+                            <p id="manual_report_location" class="text-sm text-text-main">(Sin ubicación)</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 flex flex-col gap-1">
+                            <p class="text-xs font-bold uppercase tracking-wide text-gray-500">Tamaño</p>
+                            <p id="manual_report_size" class="text-sm text-text-main">(No seleccionado)</p>
+                        </div>
+                        <div class="bg-white rounded-lg p-3 flex flex-col gap-1">
+                            <p class="text-xs font-bold uppercase tracking-wide text-gray-500">Fecha</p>
+                            <p id="manual_report_date" class="text-sm text-text-main">—</p>
+                        </div>
                     </div>
                     <div class="flex justify-stretch">
                         <div class="flex flex-1 gap-4 flex-wrap px-4 py-3 justify-between">
@@ -322,6 +381,15 @@
                     <h2 class="text-white text-[28px] font-bold font-display flex-1 text-center">Revisar Reporte</h2>
                     <div class="size-12 shrink-0"></div>
                 </div>
+                <div class="px-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-sm font-medium text-white">Paso 3 de 3</p>
+                        <p class="text-xs text-white/70">Revisión</p>
+                    </div>
+                    <div class="w-full h-2 rounded-full bg-white/30 overflow-hidden">
+                        <div class="h-full bg-action rounded-full" style="width:100%;"></div>
+                    </div>
+                </div>
                 <div class="flex flex-col gap-6 p-4 bg-urban-blue flex-grow">
                     <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl object-cover" data-alt="Mapa que muestra un pin en la ubicación reportada." data-location="Cualquier Pueblo, EE. UU." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBn_VtIItAjm8J5OPgBL2M996P5fGJv8tlQwouikTAHG4d-JCyjj8vk5uzdI6g7VGXuAMN7mlqzQK6R2x5kEqqK2SYEklkkrqnLQbCUhZb4LFZq_TyqW3pUu-5jkbid96-rMdex-7AiFUrKfEfx8YyBR2LPxKpASOKoqYGQrVoQCJwBfc2vfROWv_U016MBQPADv3v7SWrFPG3a7E9z3MkujMyfjjq4Jjk8-B9ybpL6CS80tmEqSKF5zJShrX_puNdMBus9Fr_mnKM");'></div>
                     <div class="bg-background-light rounded-xl p-4 flex flex-col gap-4">
@@ -331,7 +399,7 @@
                             </div>
                             <div class="flex flex-col justify-center">
                                 <p class="text-text-main text-base font-bold font-body leading-normal line-clamp-1">Ubicación</p>
-                                <p class="text-text-main text-base font-normal font-body leading-normal line-clamp-2">Ubicación Actual (GPS)</p>
+                                <p id="review_manual_location" class="text-text-main text-sm" aria-live="polite">(Sin ubicación)</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-4 min-h-[72px]">
@@ -340,7 +408,8 @@
                             </div>
                             <div class="flex flex-col justify-center">
                                 <p class="text-text-main text-base font-bold font-body leading-normal line-clamp-1">Detalles del Bache</p>
-                                <p class="text-text-main text-base font-normal font-body leading-normal line-clamp-2">Bache grande, de aproximadamente 60 cm de ancho, causando problemas significativos para el tráfico.</p>
+                                <p id="review_manual_description" class="text-text-main text-sm" aria-live="polite">(Sin descripción)</p>
+                                <p id="review_manual_size" class="text-text-main text-sm" aria-live="polite">Tamaño: —</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-4 min-h-[72px]">
@@ -388,6 +457,15 @@
             <!-- Voice Report Screen -->
             <div id="voice_report_screen" class="screen">
                 <div class="relative flex h-screen min-h-screen w-full flex-col group/design-root overflow-x-hidden bg-urban-blue text-white font-body">
+                    <div class="px-4 pt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-sm font-medium text-white">Paso 1 de 4</p>
+                            <p class="text-xs text-white/70">Descripción inicial</p>
+                        </div>
+                        <div class="w-full h-2 rounded-full bg-white/30 overflow-hidden">
+                            <div class="h-full bg-action rounded-full" style="width:25%;"></div>
+                        </div>
+                    </div>
                     <div class="flex flex-col items-center justify-center grow px-4 pt-12">
                         <div class="w-full max-w-md rounded-xl bg-card-background p-8 text-center flex flex-col items-center shadow-lg">
                             <div class="mb-6">
@@ -395,8 +473,12 @@
                             </div>
                             <p class="text-text-main text-2xl font-display font-bold mb-2">Díganos la ubicación del bache.</p>
                             <p class="text-text-main/70 text-base font-body mb-6">Por favor, indique las calles transversales más cercanas.</p>
-                            <div class="bg-gray-200 p-4 rounded-lg w-full min-h-[80px] text-left">
-                                <p class="text-text-main text-base font-body">Veo un bache en la Calle Principal cerca de la esquina de la Avenida del Roble...</p>
+                            <div class="bg-gray-200 p-4 rounded-lg w-full min-h-[80px] text-left" id="voice_location_container">
+                                <p id="voice_location_transcription" class="text-text-main text-base font-body" aria-live="polite">(Escuchando…)</p>
+                                <p id="voice_feedback_location" class="mt-2 text-xs text-primary/80" aria-live="assertive"></p>
+                                <div class="mt-4" id="voice_controls">
+                                    <button type="button" data-voice-stop class="w-full h-12 rounded-lg bg-gray-300 text-text-main font-display font-medium" disabled>Detener</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -404,7 +486,7 @@
                         <div class="flex justify-stretch">
                             <div class="flex flex-1 gap-3 flex-wrap justify-between">
                                 <button data-go="home_screen" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-gray-300 text-text-main text-lg font-display font-medium leading-normal tracking-[0.015em] flex-1">
-                                    <span class="truncate">Detener</span>
+                                    <span class="truncate">Salir</span>
                                 </button>
                                 <button data-go="voice_report_map_location_voice_screen" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-primary text-text-on-primary text-lg font-display font-medium leading-normal tracking-[0.015em] flex-1">
                                     <span class="truncate">Siguiente</span>
@@ -425,8 +507,17 @@
                         <h2 class="text-white text-[24px] font-bold font-display flex-1 text-center">Ubicación</h2>
                         <div class="size-12"></div>
                     </div>
+                    <div class="px-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-sm font-medium text-white">Paso 2 de 4</p>
+                            <p class="text-xs text-white/70">Confirmar ubicación</p>
+                        </div>
+                        <div class="w-full h-2 rounded-full bg-white/30 overflow-hidden">
+                            <div class="h-full bg-action rounded-full" style="width:50%;"></div>
+                        </div>
+                    </div>
                     <div class="flex flex-col items-center justify-center grow px-4 pt-2">
-                        <div class="w-full max-w-md rounded-xl bg-card-background p-6 text-center flex flex-col items-center shadow-lg">
+                            <div class="w-full max-w-md rounded-xl bg-card-background p-6 text-center flex flex-col items-center shadow-lg">
                             <div class="mb-4 flex flex-col items-center">
                                 <span class="material-symbols-outlined text-primary animate-pulse" style="font-size:56px;">mic</span>
                                 <p class="mt-1 text-xs text-text-main/60">Escuchando…</p>
@@ -442,6 +533,7 @@
                                 </div>
                             </div>
                             <p class="text-text-main/70 text-sm font-body mb-4">Puedes decir: “Usar ubicación” o “Omitir”.</p>
+                            <p id="voice_feedback_map" class="text-xs text-primary/80 -mt-2 mb-3 h-4" aria-live="assertive"></p>
                             <div class="flex items-center justify-center gap-1 h-4 mb-2" aria-hidden="true">
                                 <span class="w-1 h-4 bg-primary rounded animate-pulse"></span>
                                 <span class="w-1 h-4 bg-secondary rounded animate-pulse [animation-delay:200ms]"></span>
@@ -449,11 +541,11 @@
                                 <span class="w-1 h-4 bg-secondary/70 rounded animate-pulse [animation-delay:600ms]"></span>
                             </div>
                             <div class="flex flex-col gap-3 w-full">
-                                <button data-go="voice_report_size_screen" class="w-full h-14 rounded-lg bg-primary text-white font-display font-medium flex items-center justify-center gap-2">
+                                <button data-go="voice_report_size_screen" data-location-choice="use" class="w-full h-14 rounded-lg bg-primary text-white font-display font-medium flex items-center justify-center gap-2">
                                     <span class="material-symbols-outlined">my_location</span>
                                     Usar mi ubicación actual
                                 </button>
-                                <button data-go="voice_report_size_screen" class="w-full h-14 rounded-lg border-2 border-urban-blue text-urban-blue bg-white font-display font-medium flex items-center justify-center">
+                                <button data-go="voice_report_size_screen" data-location-choice="skip" class="w-full h-14 rounded-lg border-2 border-urban-blue text-urban-blue bg-white font-display font-medium flex items-center justify-center">
                                     Omitir por ahora
                                 </button>
                             </div>
@@ -465,6 +557,15 @@
             <!-- Nueva pantalla: tamaño del bache (flujo por voz) -->
             <div id="voice_report_size_screen" class="screen">
                 <div class="relative flex h-screen min-h-screen w-full flex-col overflow-x-hidden bg-urban-blue text-white font-body">
+                    <div class="px-4 pt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-sm font-medium text-white">Paso 3 de 4</p>
+                            <p class="text-xs text-white/70">Tamaño</p>
+                        </div>
+                        <div class="w-full h-2 rounded-full bg-white/30 overflow-hidden">
+                            <div class="h-full bg-action rounded-full" style="width:75%;"></div>
+                        </div>
+                    </div>
                     <div class="flex flex-col items-center justify-center grow px-4 pt-12">
                         <div class="w-full max-w-md rounded-xl bg-card-background p-8 text-center flex flex-col items-center shadow-lg">
                             <div class="mb-6 flex flex-col items-center">
@@ -473,21 +574,22 @@
                             </div>
                             <p class="text-text-main text-2xl font-display font-bold mb-4">¿Cuál es el tamaño del bache?</p>
                             <p class="text-text-main/70 text-base font-body mb-6">Diga: <span class="font-medium">Pequeño</span>, <span class="font-medium">Mediano</span> o <span class="font-medium">Grande</span>.</p>
-                            <div class="grid grid-cols-3 gap-3 w-full mb-6">
-                                <div class="flex flex-col items-center p-3 rounded-lg bg-white/70 backdrop-blur text-text-main" aria-hidden="true">
+                            <div class="grid grid-cols-3 gap-3 w-full mb-6" id="voice_size_options">
+                                <button type="button" data-size="pequeño" class="voice-size-option flex flex-col items-center p-3 rounded-lg bg-white/70 backdrop-blur text-text-main focus:outline-none" aria-pressed="false">
                                     <div class="w-10 h-10 rounded-full bg-secondary/30 flex items-center justify-center text-sm font-bold">S</div>
                                     <span class="mt-1 text-xs">Pequeño</span>
-                                </div>
-                                <div class="flex flex-col items-center p-3 rounded-lg bg-white/70 backdrop-blur text-text-main" aria-hidden="true">
+                                </button>
+                                <button type="button" data-size="mediano" class="voice-size-option flex flex-col items-center p-3 rounded-lg bg-white/70 backdrop-blur text-text-main focus:outline-none" aria-pressed="false">
                                     <div class="w-14 h-14 rounded-full bg-secondary/40 flex items-center justify-center text-sm font-bold">M</div>
                                     <span class="mt-1 text-xs">Mediano</span>
-                                </div>
-                                <div class="flex flex-col items-center p-3 rounded-lg bg-white/70 backdrop-blur text-text-main" aria-hidden="true">
+                                </button>
+                                <button type="button" data-size="grande" class="voice-size-option flex flex-col items-center p-3 rounded-lg bg-white/70 backdrop-blur text-text-main focus:outline-none" aria-pressed="false">
                                     <div class="w-20 h-20 rounded-full bg-secondary/50 flex items-center justify-center text-sm font-bold">G</div>
                                     <span class="mt-1 text-xs">Grande</span>
-                                </div>
+                                </button>
                             </div>
                             <div class="w-full text-left text-xs text-text-main/60">Ejemplo: “El bache es grande”.</div>
+                            <p id="voice_feedback_size" class="mt-2 text-xs text-primary/80" aria-live="assertive"></p>
                         </div>
                     </div>
                     <div class="flex flex-col gap-4 p-4">
@@ -577,6 +679,15 @@
                     <h2 class="text-white text-[24px] font-bold font-display flex-1 text-center">Revisión del Reporte</h2>
                     <div class="size-12"></div>
                 </div>
+                <div class="px-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-sm font-medium text-white">Paso 4 de 4</p>
+                        <p class="text-xs text-white/70">Revisión final</p>
+                    </div>
+                    <div class="w-full h-2 rounded-full bg-white/30 overflow-hidden">
+                        <div class="h-full bg-action rounded-full" style="width:100%;"></div>
+                    </div>
+                </div>
                 <div class="flex flex-col gap-6 p-4 flex-grow">
                     <div class="w-full max-w-md mx-auto rounded-xl bg-white text-text-main p-5 shadow-lg" aria-live="polite">
                         <div class="flex items-center gap-2 mb-4">
@@ -586,15 +697,15 @@
                         <div class="space-y-4 text-sm">
                             <div>
                                 <p class="font-semibold text-xs text-gray-500 uppercase tracking-wide">Ubicación</p>
-                                <p class="leading-snug">(Transcripción de ubicación…) Calle Principal cerca de Avenida Roble frente a la panadería.</p>
+                                <p id="review_location_text" class="leading-snug">(Ubicación transcrita…)</p>
                             </div>
                             <div>
                                 <p class="font-semibold text-xs text-gray-500 uppercase tracking-wide">Tamaño</p>
-                                <p class="leading-snug">Grande (estimado ≥60cm)</p>
+                                <p id="review_size_text" class="leading-snug">(Tamaño no seleccionado)</p>
                             </div>
                             <div>
                                 <p class="font-semibold text-xs text-gray-500 uppercase tracking-wide">Notas</p>
-                                <p class="leading-snug">Profundo y peligroso para ciclistas.</p>
+                                <p id="review_notes_text" class="leading-snug">(Notas / descripción…)</p>
                             </div>
                         </div>
                         <div class="mt-6 flex flex-col gap-2 text-xs text-gray-500">
@@ -612,6 +723,7 @@
                                 <span class="material-symbols-outlined text-base">mic</span>
                                 <span>Puede decir: “Confirmar”, “Repetir ubicación” o “Cambiar tamaño”.</span>
                             </div>
+                            <p id="voice_feedback_review" class="mt-2 text-xs text-primary/80" aria-live="assertive"></p>
                         </div>
                     </div>
                     <div class="flex flex-col gap-3 w-full max-w-md mx-auto">
@@ -738,50 +850,6 @@
             </div>
         </div>
 
-    <script>
-        // Simple router-like helper for prototype
-        function showScreen(id) {
-            const screens = document.querySelectorAll('.screen');
-            screens.forEach((el) => {
-                el.classList.remove('active');
-                el.setAttribute('aria-hidden', 'true');
-            });
-            const target = document.getElementById(id);
-            if (target) {
-                target.classList.add('active');
-                target.removeAttribute('aria-hidden');
-                // Keep URL hash in sync for easy sharing/reload
-                if (location.hash !== '#' + id) {
-                    history.pushState(null, '', '#' + id);
-                }
-                // Scroll to top of the new screen
-                window.scrollTo({ top: 0, behavior: 'instant' });
-            }
-        }
-
-        // Click delegation: any element with data-go switches screen
-        document.addEventListener('click', (e) => {
-            const go = e.target.closest('[data-go]');
-            if (go) {
-                const id = go.getAttribute('data-go');
-                if (id) {
-                    e.preventDefault();
-                    showScreen(id);
-                }
-            }
-        });
-
-        // Handle back/forward navigation
-        window.addEventListener('popstate', () => {
-            const id = (location.hash || '#home_screen').slice(1);
-            showScreen(id);
-        });
-
-        // Initial route
-        (function init() {
-            const initial = (location.hash || '#home_screen').slice(1);
-            showScreen(initial);
-        })();
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
