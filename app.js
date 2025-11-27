@@ -219,6 +219,13 @@ window.setVoiceFeedback = function(screenId, msg) {
       recognition.lang = 'es-ES';
       recognition.interimResults = true;
       recognition.continuous = true;
+
+      recognition.onend = () => {
+        if (voiceReportSessionActive && !window.isTemporarilyStoppedForTTS) {
+          try { recognition.start(); } catch(e) {}
+        }
+      };
+
       let isPaused = false;
       let interimBuffer = '';
         recognition.onresult = (e) => {
@@ -289,17 +296,13 @@ window.setVoiceFeedback = function(screenId, msg) {
 
       function handleInlineVoiceCommands(lower, isFinal) {
         if (!canTriggerInline()) return;
-        const screen = currentScreenId();
-        // Mientras TTS habla permitir:
-        // - Todos los comandos en descripción y revisión
-        // - Solo selección de tamaño en pantalla de tamaño
-        if (typeof ttsBusy !== 'undefined' && ttsBusy) {
-          const sizeIntent = /\b(peque(?:ño|nito|no)|mediano|grande)\b/.test(lower);
-          const allowAll = screen === 'voice_report_screen' || screen === 'voice_report_review_voice_screen';
-          if (!allowAll && !(screen === 'voice_report_size_screen' && sizeIntent)) {
-            return; // ignorar comandos hasta finalizar TTS
-          }
+        
+        // Bloquear comandos si el sistema está hablando o acaba de terminar (evitar auto-escucha)
+        if ((typeof ttsBusy !== 'undefined' && ttsBusy) || (Date.now() < (window.ttsEndTime || 0) + 500)) {
+          return; 
         }
+
+        const screen = currentScreenId();
         // Global salir/home
         if (/\b(inicio|home|salir)\b/.test(lower)) {
           if (window.voiceReport && window.voiceReport.stopVoiceCapture) {
@@ -576,23 +579,52 @@ window.setVoiceFeedback = function(screenId, msg) {
   // ---------- TTS (Text to Speech) Utility ----------
   const TTS_SUPPORT = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
   let ttsBusy = false;
+  let currentUtteranceId = 0;
+
   function speak(text, opts={}) {
     if (!TTS_SUPPORT || !text) return;
+    
+    const myId = ++currentUtteranceId;
+
     if (opts.cancelFirst) speechSynthesis.cancel();
+
+    // Detener reconocimiento temporalmente para evitar que se transcriba la propia voz del sistema (eco)
+    if (recognition) {
+      window.isTemporarilyStoppedForTTS = true;
+      try { recognition.abort(); } catch(e) {}
+    }
+
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'es-ES';
     u.rate = opts.rate || 1;
     u.pitch = opts.pitch || 1;
     ttsBusy = true;
     window.ttsBusyFlag = true;
-    u.onend = () => { ttsBusy = false; window.ttsBusyFlag = false; };
-    u.onerror = () => { ttsBusy = false; window.ttsBusyFlag = false; };
-    speechSynthesis.speak(u);
-      if (id === 'report_submission_confirmation') {
-        if (window.voiceReport && window.voiceReport.stopVoiceCapture) { try { window.voiceReport.stopVoiceCapture(); } catch(_) {} }
-        if (window.tts && window.tts.cancelSpeak) { window.tts.cancelSpeak(); }
+
+    const onComplete = () => {
+      // Solo limpiar flags si esta es la última expresión solicitada
+      if (myId === currentUtteranceId) {
+        ttsBusy = false;
         window.ttsBusyFlag = false;
+        window.isTemporarilyStoppedForTTS = false;
+        window.ttsEndTime = Date.now(); // Marca de tiempo de finalización
+        
+        // Reactivar reconocimiento si la sesión de voz sigue activa
+        if (voiceReportSessionActive && recognition) {
+          // Aumentar delay para asegurar que no capte el eco final
+          setTimeout(() => {
+            // Verificar nuevamente que no haya empezado otro TTS
+            if (myId === currentUtteranceId && !ttsBusy) {
+              try { recognition.start(); } catch(e) {}
+            }
+          }, 300);
+        }
       }
+    };
+
+    u.onend = onComplete;
+    u.onerror = onComplete;
+    speechSynthesis.speak(u);
   }
   function cancelSpeak() { if (TTS_SUPPORT) speechSynthesis.cancel(); }
 
@@ -601,16 +633,16 @@ window.setVoiceFeedback = function(screenId, msg) {
     let text = '';
     switch(tipo) {
       case 'descripcion':
-        text = 'Describe el bache. Comandos disponibles: usar ubicación, omitir, siguiente, detener.';
+        text = 'Describe el bache.';
         break;
       case 'ubicacion':
-        text = 'Pantalla de ubicación. Puedes decir: usar ubicación, omitir, siguiente, editar ubicación, detener.';
+        text = 'Pantalla de ubicación.';
         break;
       case 'tamano':
-        text = 'Pantalla de tamaño. Opciones: pequeño, mediano, grande. Comandos: confirmar, siguiente, editar ubicación, detener.';
+        text = 'Pantalla de tamaño. Opciones: pequeño, mediano, grande.';
         break;
       case 'revision':
-        text = 'Pantalla de revisión. Comandos: confirmar, enviar, cambiar tamaño, editar ubicación, salir, detener.';
+        text = 'Pantalla de revisión.';
         break;
     }
     speak(text, { cancelFirst: true });
